@@ -1,0 +1,2 @@
+httplib2==0.15.0
+PyDrive2==1.7.0
