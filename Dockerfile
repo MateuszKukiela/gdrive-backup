@@ -13,7 +13,7 @@ RUN mkdir -p /credentials
 
 RUN mkdir -p /appdata
 
-RUN chmod +x /run.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 COPY requirements.txt requirements.txt
 COPY backup.py backup.py
