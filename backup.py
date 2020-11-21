@@ -6,7 +6,7 @@ from datetime import date
 
 dir_name = '/appdata'
 
-REMAIN = os.getenv("REMAIN")
+REMAIN = int(os.getenv("REMAIN"))
 
 gauth = GoogleAuth()
 
