@@ -6,6 +6,8 @@ from datetime import date
 
 dir_name = '/appdata'
 
+REMAIN = os.getenv("REMAIN")
+
 gauth = GoogleAuth()
 
 gauth.LoadCredentialsFile("/credentials/mycreds.txt")
@@ -46,10 +48,11 @@ try:
     file1 = drive.CreateFile({'title': today + '.zip'})
     file1.SetContentFile(zip_path)
     file1.Upload()
-    file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false'}).GetList()
-    file_list = sorted(file_list, key=lambda i: i['title'])
-    for file in file_list[5:]:
-        file.Trash()
+    if REMAIN:
+        file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false'}).GetList()
+        file_list = sorted(file_list, key=lambda i: i['title'])
+        for file in file_list[REMAIN:]:
+            file.Delete()
     print('Done')
 except:
     print('Failed')
