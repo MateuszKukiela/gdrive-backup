@@ -6,7 +6,8 @@ from datetime import date
 
 dir_name = '/appdata'
 
-REMAIN = int(os.getenv("REMAIN"))
+f = open("/REMAIN.txt", "r")
+REMAIN = int(f.read())
 
 gauth = GoogleAuth()
 

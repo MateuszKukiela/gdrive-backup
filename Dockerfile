@@ -3,7 +3,8 @@ FROM python:3.9.0-buster
 # Install cron
 RUN apt-get update && apt-get install -y cron
 
-# Add files
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -15,11 +16,8 @@ RUN mkdir -p /appdata
 
 RUN chmod +x /entrypoint.sh
 
-COPY requirements.txt requirements.txt
 COPY backup.py backup.py
 COPY restore.py restore.py
-
-RUN pip install -r requirements.txt
 
 ENTRYPOINT /entrypoint.sh
 
