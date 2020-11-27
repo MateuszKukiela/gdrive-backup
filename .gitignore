@@ -1,3 +1,5 @@
 /appdata
 /credentials
 /.idea
+.ipynb_checkpoints/
+testing.ipynb

@@ -7,7 +7,10 @@ from datetime import date
 dir_name = '/appdata'
 
 f = open("/REMAIN.txt", "r")
-REMAIN = int(f.read())
+REMAIN = int(f.read()) - 1
+
+f = open("/TEAM_ID.txt", "r")
+TEAM_ID = str(f.read())
 
 gauth = GoogleAuth()
 
@@ -46,14 +49,17 @@ with zip_file:
         zip_file.write(file)
 
 try:
-    file1 = drive.CreateFile({'title': today + '.zip'})
-    file1.SetContentFile(zip_path)
-    file1.Upload()
     if REMAIN:
-        file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false'}).GetList()
-        file_list = sorted(file_list, key=lambda i: i['title'])
+        file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false and "root" in parents'}).GetList()
+        file_list = sorted(file_list, key=lambda i: i['title'], reverse=True)
         for file in file_list[REMAIN:]:
-            file.Delete()
+            file['parents'] = [{"kind": "drive#fileLink", "id": TEAM_ID}]
+            file.Upload()
+
+    backup_file = drive.CreateFile({'title': today + '.zip'})
+    backup_file.SetContentFile(zip_path)
+    backup_file.Upload()
+
     print('Done')
 except:
     print('Failed')
