@@ -10,7 +10,7 @@ f = open("/REMAIN.txt", "r")
 REMAIN = int(f.read()) - 1
 
 f = open("/TEAM_ID.txt", "r")
-TEAM_ID = str(f.read())
+TEAM_ID = str(f.read()).rstrip()
 
 gauth = GoogleAuth()
 
