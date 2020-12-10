@@ -45,11 +45,11 @@ zip_file = zipfile.ZipFile(zip_path, 'w')
 
 print(f'Backing up to {today}.zip')
 
-with zip_file:
-    for file in file_paths:
-        zip_file.write(file)
-
 try:
+    with zip_file:
+        for file in file_paths:
+            zip_file.write(file)
+            
     file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false and "root" in parents'}).GetList()
     file_list = sorted(file_list, key=lambda i: i['title'], reverse=True)
     for file in file_list[REMAIN:]:
