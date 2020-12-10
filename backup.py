@@ -1,6 +1,7 @@
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import os
+import sys
 import zipfile
 from datetime import date
 
@@ -49,12 +50,11 @@ with zip_file:
         zip_file.write(file)
 
 try:
-    if REMAIN:
-        file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false and "root" in parents'}).GetList()
-        file_list = sorted(file_list, key=lambda i: i['title'], reverse=True)
-        for file in file_list[REMAIN:]:
-            file['parents'] = [{"kind": "drive#fileLink", "id": TEAM_ID}]
-            file.Upload()
+    file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false and "root" in parents'}).GetList()
+    file_list = sorted(file_list, key=lambda i: i['title'], reverse=True)
+    for file in file_list[REMAIN:]:
+        file['parents'] = [{"kind": "drive#fileLink", "id": TEAM_ID}]
+        file.Upload()
 
     backup_file = drive.CreateFile({'title': today + '.zip'})
     backup_file.SetContentFile(zip_path)
@@ -62,6 +62,8 @@ try:
 
     print('Done')
 except:
+    e = sys.exc_info()[0]
+    print(e)
     print('Failed')
 
 os.remove(zip_path)
