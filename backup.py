@@ -53,8 +53,9 @@ try:
     file_list = drive.ListFile({'q': 'title contains ".zip" and trashed=false and "root" in parents'}).GetList()
     file_list = sorted(file_list, key=lambda i: i['title'], reverse=True)
     for file in file_list[REMAIN:]:
-        file['parents'] = [{"kind": "drive#fileLink", "id": TEAM_ID}]
-        file.Upload()
+        # file['parents'] = [{"kind": "drive#fileLink", "id": TEAM_ID}]
+        # file.Upload()
+        file.Trash()
 
     backup_file = drive.CreateFile({'title': today + '.zip'})
     backup_file.SetContentFile(zip_path)
