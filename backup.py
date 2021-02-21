@@ -55,7 +55,7 @@ try:
     for file in file_list[REMAIN:]:
         # file['parents'] = [{"kind": "drive#fileLink", "id": TEAM_ID}]
         # file.Upload()
-        file.Trash()
+        file.Delete()
 
     backup_file = drive.CreateFile({'title': today + '.zip'})
     backup_file.SetContentFile(zip_path)
